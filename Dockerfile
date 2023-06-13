@@ -14,8 +14,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         && apt-get autoremove -y && apt-get autoclean -y
 
 COPY --from=builder /src/bin /app
+COPY --from=builder /src/configs/* /data/conf/
 
 WORKDIR /app
+RUN find . -type f  -executable -execdir mv {} server \;  ## common set executable file name
 
 EXPOSE 8000
 EXPOSE 9000
